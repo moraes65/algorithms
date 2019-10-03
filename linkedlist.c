@@ -60,29 +60,30 @@ produto *pesquisa(lista l, int cod)
    return p;
 }
 
-void deleta(lista l, int cod)
-{
-   produto *p, *q; 
-   p = l.primeiro;
+void deleta(lista *l, int cod) {
+   produto *p, *anterior; 
+   p = l->primeiro;
+   anterior = NULL;
    //q = l->proximo;
-
-   while (p != NULL && cod != p->codigo)
-   {
-  //  p = q;  
-    p = (produto*) p->proximo;  
-   }
-   if (p != NULL && cod != p->codigo)
+   if (p != NULL && p->codigo == cod)
       {
          p = (produto*) p->proximo;
          printf("Procurando...\n");
+         free(p);
       }
-      else
+       while (p != NULL && cod != p->codigo)
       {
-         q = p;
-         printf("Produto encontrado.");
-         p = (produto*) p->proximo;
-         free(q);
+      anterior = (produto *) p->proximo;  
+       p = (produto*) p->proximo;  
+       free(p);
       }
+      // else
+      // {
+      //    anterior = p;
+      //    printf("Produto encontrado.");
+      //    anterior->proximo = p->proximo;
+      //    free(p);
+      // }
 }
 
 int main()
@@ -122,7 +123,7 @@ int main()
    inserir(&l, prod);
 
    //deleta
-  deleta(l, 3);
+  deleta(&l, 4);
 
    /* pesquisa */
    printf("\n======================\n");
